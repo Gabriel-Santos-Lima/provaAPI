@@ -1,8 +1,7 @@
 import { Router } from 'express'
-import { Inserir } from '../repository/petRepository.js'
+import { Inserir, listar } from '../repository/petRepository.js';
 
 const server = Router();
-
 
 server.post('/pet', async (req, resp) => {
     try {
@@ -13,6 +12,17 @@ server.post('/pet', async (req, resp) => {
         resp.send(x)
     } catch (err) {
         resp.status(401).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get('/pet', async (req, resp) => {
+    try{
+        const resposta = await listar();
+        resp.send(resposta);
+    } catch ( err ) {
+        resp.status(400).send({
             erro: err.message
         })
     }
